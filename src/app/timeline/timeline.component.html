@@ -1,0 +1,21 @@
+<div class="timeline-container" *ngIf="validTasks.length > 0">
+  <div class="timeline-bar">
+    <div
+      *ngFor="let task of validTasks"
+      class="timeline-marker"
+      [style.left]="getPosition(task.dueDate)"
+    >
+      <div class="timeline-tooltip">
+        {{ task.title }}<br />{{ task.dueDate | date : "mediumDate" }}
+      </div>
+    </div>
+    <div class="current-date-marker" [style.left]="getCurrentDatePosition()">
+      <div class="current-date-line"></div>
+      <div class="current-date-label">Today</div>
+    </div>
+  </div>
+  <div class="timeline-labels">
+    <span>{{ startDate | date : "mediumDate" }}</span>
+    <span>{{ endDate | date : "mediumDate" }}</span>
+  </div>
+</div>
