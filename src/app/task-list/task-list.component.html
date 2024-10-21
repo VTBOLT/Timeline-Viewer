@@ -1,41 +1,55 @@
 <mat-card>
-  <mat-card-content>
-    <app-timeline [tasks]="sortedTasks"></app-timeline>
+  <mat-card-header>
+    <mat-card-title>MS Planner Tasks</mat-card-title>
+  </mat-card-header>
 
-    <div *ngIf="!isAuthenticated()" class="auth-buttons">
+  <mat-card-content>
+    <div class="auth-buttons" *ngIf="!isAuthenticated()">
       <button mat-raised-button color="primary" (click)="login()">Login</button>
     </div>
 
-    <div *ngIf="isAuthenticated()" class="auth-buttons">
+    <div class="auth-buttons" *ngIf="isAuthenticated()">
       <button mat-raised-button color="primary" (click)="getTasks()">
         Get Tasks
       </button>
       <button mat-raised-button color="warn" (click)="logout()">Logout</button>
     </div>
 
-    <mat-list *ngIf="sortedTasks.length > 0">
-      <mat-list-item *ngFor="let task of sortedTasks">
-        <mat-icon
-          matListItemIcon
-          [ngClass]="{ overdue: compareDate(task.dueDate) }"
-        >
-          {{
-            task.dueDate
-              ? compareDate(task.dueDate)
-                ? "warning"
-                : "check_circle"
-              : "schedule"
-          }}
-        </mat-icon>
-        <span matListItemTitle>{{ task.title }}</span>
-        <span matListItemLine
-          >Due: {{ task.dueDate | date : "mediumDate" || "No due date" }}</span
-        >
-      </mat-list-item>
-    </mat-list>
+    <app-timeline [tasks]="tasks" *ngIf="tasks.length > 0"></app-timeline>
 
-    <p *ngIf="sortedTasks.length === 0 && isAuthenticated()" class="no-tasks">
-      No tasks available. Click "Get Tasks" to fetch your tasks.
-    </p>
+    <div class="columns-container" *ngIf="taskColumns.length > 0">
+      <mat-card class="plan-column" *ngFor="let column of taskColumns">
+        <mat-card-header>
+          <mat-card-title>{{ column.name }}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <mat-list>
+            <mat-list-item *ngFor="let task of column.tasks">
+              <mat-icon
+                matListItemIcon
+                [ngClass]="{ red: compareDate(task.dueDate) }"
+              >
+                {{
+                  task.dueDate
+                    ? compareDate(task.dueDate)
+                      ? "warning"
+                      : "check_circle"
+                    : "schedule"
+                }}
+              </mat-icon>
+              <span matListItemTitle>{{ task.title }}</span>
+              <span matListItemLine
+                >Due:
+                {{ task.dueDate | date : "mediumDate" || "No due date" }}</span
+              >
+            </mat-list-item>
+          </mat-list>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <div *ngIf="isAuthenticated() && taskColumns.length === 0" class="no-tasks">
+      <p>No tasks available. Click "Get Tasks" to fetch your tasks.</p>
+    </div>
   </mat-card-content>
 </mat-card>

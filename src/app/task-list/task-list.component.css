@@ -1,7 +1,31 @@
+.columns-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+  padding: 20px;
+  margin-top: 20px;
+}
+
+.plan-column {
+  min-height: 200px;
+}
+
+.auth-buttons {
+  display: flex;
+  gap: 10px;
+  margin: 20px;
+}
+
+.no-tasks {
+  text-align: center;
+  padding: 20px;
+}
+
 .red {
   color: red;
 }
 
-.black {
-  color: black;
+app-timeline {
+  display: block;
+  margin: 20px 0;
 }

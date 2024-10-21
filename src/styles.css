@@ -8,3 +8,22 @@ body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
+:root {
+  --overscan-margin: 40px;
+}
+
+body {
+  margin: var(--overscan-margin);
+}
+
+.timeline-container {
+  margin: var(--overscan-margin) 0;
+}
+
+mat-card {
+  margin: var(--overscan-margin) 0;
+}
+
+.auth-buttons {
+  margin: var(--overscan-margin) 0;
+}

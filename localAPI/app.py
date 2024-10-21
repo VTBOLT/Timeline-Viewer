@@ -118,19 +118,20 @@ async def get_tasks():
                 tasks = graph_client.planner.plans.by_planner_plan_id(list_id).tasks
                 tasks = await tasks.get()
                 logger.info(f"Tasks for list {list_id} data: {tasks.value}")
-                all_tasks.extend(tasks.value)
+                all_tasks.extend([(item, plan.title) for item in tasks.value])
             except:
+                print(plan.title)
+                print(plan.id)
                 continue
-
-        print(all_tasks[0].id)
 
         return jsonify(
             {
                 "value": [
                     {
-                        "id": task.id,
-                        "title": task.title,
-                        "dueDate": task.due_date_time,
+                        "id": task[0].id,
+                        "title": task[0].title,
+                        "dueDate": task[0].due_date_time,
+                        "plan": task[1],
                     }
                     for task in all_tasks
                 ]

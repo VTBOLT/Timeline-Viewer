@@ -9,11 +9,17 @@ import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar';
 import { TimelineComponent } from '../timeline/timeline.component';
+import { environment } from '../environment';
 
 interface Task {
   id: string;
   title: string;
   dueDate: Date;
+  plan: string;
+}
+interface TaskColumn {
+  name: string;
+  tasks: Task[];
 }
 
 @Component({
@@ -32,9 +38,11 @@ interface Task {
   ],
 })
 export class TaskListComponent implements OnInit {
+  taskColumns: TaskColumn[] = [];
   tasks: Task[] = [];
   currDate: Date = new Date();
   sortedTasks: Task[] = [];
+  visiblePlans: Set<string>;
 
   constructor(
     private authService: AuthService,
@@ -42,7 +50,9 @@ export class TaskListComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private snackBar: MatSnackBar
-  ) {}
+  ) {
+    this.visiblePlans = new Set(environment.visiblePlans);
+  }
 
   ngOnInit() {
     this.route.queryParams.subscribe((params) => {
@@ -91,7 +101,7 @@ export class TaskListComponent implements OnInit {
                 ? new Date(task.dueDate)
                 : null,
             }));
-            this.sortTasks();
+            this.organizeTasksByPlan();
             this.snackBar.open('Tasks fetched successfully', 'Close', {
               duration: 3000,
             });
@@ -136,5 +146,29 @@ export class TaskListComponent implements OnInit {
       return false;
     }
     return date.getTime() < this.currDate.getTime();
+  }
+
+  private organizeTasksByPlan() {
+    const planMap = new Map<string, Task[]>();
+
+    this.tasks.forEach((task) => {
+      const planName = task.plan || 'No Plan';
+      console.log(planName);
+      if (this.visiblePlans.size === 0 || this.visiblePlans.has(planName)) {
+        if (!planMap.has(planName)) {
+          planMap.set(planName, []);
+        }
+        planMap.get(planName)?.push(task);
+      }
+    });
+
+    this.taskColumns = Array.from(planMap.entries()).map(([name, tasks]) => ({
+      name,
+      tasks: tasks.sort((a, b) => {
+        if (!a.dueDate) return 1;
+        if (!b.dueDate) return -1;
+        return a.dueDate.getTime() - b.dueDate.getTime();
+      }),
+    }));
   }
 }
