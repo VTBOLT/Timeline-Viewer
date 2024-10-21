@@ -9,6 +9,7 @@ from azure.identity import (
     ClientSecretCredential,
     OnBehalfOfCredential,
     AuthorizationCodeCredential,
+    DefaultAzureCredential,
 )
 from azure.core.credentials import TokenCredential, AccessToken
 from kiota_authentication_azure.azure_identity_authentication_provider import (
@@ -16,6 +17,7 @@ from kiota_authentication_azure.azure_identity_authentication_provider import (
 )
 from msgraph_core import GraphClientFactory
 from dotenv import load_dotenv
+import requests
 
 load_dotenv()
 
@@ -113,24 +115,57 @@ async def get_tasks():
 
         all_tasks = []
         for plan in task_lists.value:
+            list_id = plan.id
+            tasks = graph_client.planner.plans.by_planner_plan_id(list_id).tasks
             try:
-                list_id = plan.id
-                tasks = graph_client.planner.plans.by_planner_plan_id(list_id).tasks
                 tasks = await tasks.get()
                 logger.info(f"Tasks for list {list_id} data: {tasks.value}")
-                all_tasks.extend([(item, plan.title) for item in tasks.value])
-            except:
-                print(plan.title)
-                print(plan.id)
-                continue
+                all_tasks.extend(
+                    [
+                        (
+                            {
+                                "id": item.id,
+                                "title": item.title,
+                                "dueDate": item.due_date_time,
+                            },
+                            plan.title,
+                        )
+                        for item in tasks.value
+                    ]
+                )
+            except Exception as e:
+                headers = {
+                    "Authorization": f"Bearer {token}",
+                    "Content-Type": "application/json",
+                }
+                url = f"https://graph.microsoft.com/v1.0/planner/plans/{list_id}/tasks"
+                response = requests.get(url, headers=headers)
+                if response.status_code == 200:
+                    tasks = response.json()
+                    print(tasks["value"][0])
+                    all_tasks.extend(
+                        [
+                            (
+                                {
+                                    "id": item["id"],
+                                    "title": item["title"],
+                                    "dueDate": item["dueDateTime"],
+                                },
+                                plan.title,
+                            )
+                            for item in tasks["value"]
+                        ]
+                    )
+                else:
+                    print(f"Error: {response.status_code}, {response.text}")
 
         return jsonify(
             {
                 "value": [
                     {
-                        "id": task[0].id,
-                        "title": task[0].title,
-                        "dueDate": task[0].due_date_time,
+                        "id": task[0]["id"],
+                        "title": task[0]["title"],
+                        "dueDate": task[0]["dueDate"],
                         "plan": task[1],
                     }
                     for task in all_tasks
