@@ -17,7 +17,7 @@ interface Task {
 export class TimelineComponent implements OnChanges {
   @Input() tasks: Task[] = [];
   validTasks: Task[] = [];
-  startDate: Date = new Date();
+  startDate: Date = new Date('2024-08-02');
   endDate: Date = new Date();
   currentDate: Date = new Date();
 
@@ -32,16 +32,11 @@ export class TimelineComponent implements OnChanges {
       });
 
       if (this.validTasks.length > 0) {
-        this.startDate = this.validTasks[0].dueDate!;
-        this.endDate = this.validTasks[this.validTasks.length - 1].dueDate!;
-
-        // Adjust start and end dates to include current date if necessary
-        if (this.currentDate < this.startDate) {
-          this.startDate = new Date(this.currentDate);
-        }
-        if (this.currentDate > this.endDate) {
-          this.endDate = new Date(this.currentDate);
-        }
+        // Keep fixed start date, only update end date
+        const lastTaskDate =
+          this.validTasks[this.validTasks.length - 1].dueDate!;
+        this.endDate =
+          lastTaskDate > this.currentDate ? lastTaskDate : this.currentDate;
       }
     }
   }
@@ -60,6 +55,6 @@ export class TimelineComponent implements OnChanges {
     const totalDuration = this.endDate.getTime() - this.startDate.getTime();
     const position =
       ((taskDate - this.startDate.getTime()) / totalDuration) * 100;
-    return `${position}%`;
+    return `${Math.max(0, Math.min(100, position))}%`;
   }
 }

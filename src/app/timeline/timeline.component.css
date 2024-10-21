@@ -1,33 +1,37 @@
 .timeline-container {
-  margin: 20px 0;
+  margin: 60px 0;
   position: relative;
+  padding: 0 40px;
 }
 .timeline-bar {
-  height: 4px;
+  height: 16px;
   background-color: #e0e0e0;
   position: relative;
-  margin-bottom: 30px;
+  margin-bottom: 60px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 .timeline-marker {
-  width: 12px;
-  height: 12px;
+  width: 24px;
+  height: 24px;
   border-radius: 50%;
   background-color: #3f51b5;
   position: absolute;
   top: -4px;
   transform: translateX(-50%);
   cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 .timeline-tooltip {
   position: absolute;
-  bottom: 20px;
+  bottom: 30px;
   left: 50%;
   transform: translateX(-50%);
   background-color: #333;
   color: white;
-  padding: 5px 10px;
-  border-radius: 4px;
-  font-size: 12px;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 14px;
   opacity: 0;
   transition: opacity 0.2s;
   pointer-events: none;
@@ -39,14 +43,16 @@
 .timeline-labels {
   display: flex;
   justify-content: space-between;
-  font-size: 12px;
+  font-size: 16px;
+  font-weight: 500;
   color: #666;
+  margin-top: 20px;
 }
 .current-date-marker {
   position: absolute;
-  top: -10px;
-  bottom: -30px;
-  width: 2px;
+  top: -15px;
+  bottom: -40px;
+  width: 4px;
   background-color: #f44336;
   z-index: 1;
 }
@@ -60,13 +66,14 @@
 }
 .current-date-label {
   position: absolute;
-  bottom: -20px;
+  bottom: -30px;
   left: 50%;
   transform: translateX(-50%);
   background-color: #f44336;
   color: white;
-  padding: 2px 6px;
-  border-radius: 4px;
-  font-size: 12px;
+  padding: 4px 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
   white-space: nowrap;
 }

@@ -113,12 +113,14 @@ async def get_tasks():
 
         all_tasks = []
         for plan in task_lists.value:
-            list_id = plan.id
-            tasks = await graph_client.planner.plans.by_planner_plan_id(
-                list_id
-            ).tasks.get()
-            logger.info(f"Tasks for list {list_id} data: {tasks.value}")
-            all_tasks.extend(tasks.value)
+            try:
+                list_id = plan.id
+                tasks = graph_client.planner.plans.by_planner_plan_id(list_id).tasks
+                tasks = await tasks.get()
+                logger.info(f"Tasks for list {list_id} data: {tasks.value}")
+                all_tasks.extend(tasks.value)
+            except:
+                continue
 
         print(all_tasks[0].id)
 
