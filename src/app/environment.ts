@@ -4,7 +4,7 @@ export const environment = {
     'Controls Tasks',
     'Chassis Tasks',
     'Tasks',
-  ], // Add plan names you want to show
+  ],
 };
 
-export const visibleTags = ['Bay TV'];
+export const visibleTags = ['Bay TV', 'TV'];
