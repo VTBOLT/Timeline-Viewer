@@ -116,6 +116,11 @@ async def get_tasks():
         all_tasks = []
         for plan in task_lists.value:
             list_id = plan.id
+            descs = (
+                await graph_client.planner.plans.by_planner_plan_id(
+                    list_id
+                ).details.get()
+            ).category_descriptions
             tasks = graph_client.planner.plans.by_planner_plan_id(list_id).tasks
             try:
                 tasks = await tasks.get()
@@ -128,6 +133,10 @@ async def get_tasks():
                                 "title": item.title,
                                 "dueDate": item.due_date_time,
                                 "completed": item.percent_complete,
+                                "tags": [
+                                    getattr(descs, key)
+                                    for key in item.applied_categories.additional_data
+                                ],
                             },
                             plan.title,
                         )
@@ -143,7 +152,6 @@ async def get_tasks():
                 response = requests.get(url, headers=headers)
                 if response.status_code == 200:
                     tasks = response.json()
-                    print(tasks["value"][0])
                     all_tasks.extend(
                         [
                             (
@@ -152,6 +160,10 @@ async def get_tasks():
                                     "title": item["title"],
                                     "dueDate": item["dueDateTime"],
                                     "completed": item["percentComplete"],
+                                    "tags": [
+                                        getattr(descs, key)
+                                        for key in item["appliedCategories"]
+                                    ],
                                 },
                                 plan.title,
                             )
@@ -169,6 +181,7 @@ async def get_tasks():
                         "title": task[0]["title"],
                         "dueDate": task[0]["dueDate"],
                         "completed": task[0]["completed"],
+                        "tags": task[0]["tags"],
                         "plan": task[1],
                     }
                     for task in all_tasks

@@ -9,7 +9,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar';
 import { TimelineComponent } from '../timeline/timeline.component';
-import { environment } from '../environment';
+import { environment, visibleTags } from '../environment';
 
 export interface Task {
   id: string;
@@ -17,6 +17,7 @@ export interface Task {
   dueDate: Date;
   plan: string;
   completed: number;
+  tags: string[];
 }
 interface TaskColumn {
   name: string;
@@ -153,6 +154,15 @@ export class TaskListComponent implements OnInit {
     const planMap = new Map<string, Task[]>();
 
     this.tasks.forEach((task) => {
+      let isVisible = false;
+      for (const tag of task.tags) {
+        if (visibleTags.includes(tag)) {
+          isVisible = true;
+        }
+      }
+      if (!isVisible) {
+        return;
+      }
       const planName = task.plan || 'No Plan';
       console.log(planName);
       if (this.visiblePlans.size === 0 || this.visiblePlans.has(planName)) {
