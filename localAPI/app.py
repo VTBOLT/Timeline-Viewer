@@ -127,6 +127,7 @@ async def get_tasks():
                                 "id": item.id,
                                 "title": item.title,
                                 "dueDate": item.due_date_time,
+                                "completed": item.percent_complete,
                             },
                             plan.title,
                         )
@@ -150,6 +151,7 @@ async def get_tasks():
                                     "id": item["id"],
                                     "title": item["title"],
                                     "dueDate": item["dueDateTime"],
+                                    "completed": item["percentComplete"],
                                 },
                                 plan.title,
                             )
@@ -166,6 +168,7 @@ async def get_tasks():
                         "id": task[0]["id"],
                         "title": task[0]["title"],
                         "dueDate": task[0]["dueDate"],
+                        "completed": task[0]["completed"],
                         "plan": task[1],
                     }
                     for task in all_tasks

@@ -11,11 +11,12 @@ import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar';
 import { TimelineComponent } from '../timeline/timeline.component';
 import { environment } from '../environment';
 
-interface Task {
+export interface Task {
   id: string;
   title: string;
   dueDate: Date;
   plan: string;
+  completed: number;
 }
 interface TaskColumn {
   name: string;

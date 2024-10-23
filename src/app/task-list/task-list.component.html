@@ -26,10 +26,10 @@
                 [ngClass]="{ red: compareDate(task.dueDate) }"
               >
                 {{
-                  task.dueDate
-                    ? compareDate(task.dueDate)
-                      ? "warning"
-                      : "check_circle"
+                  task.completed >= 100
+                    ? "check_circle"
+                    : compareDate(task.dueDate)
+                    ? "warning"
                     : "schedule"
                 }}
               </mat-icon>

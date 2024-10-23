@@ -2,20 +2,25 @@
   <div class="timeline-bar">
     <div
       *ngFor="let task of validTasks"
-      class="timeline-marker"
+      [class]="
+        'timeline-marker ' + getMarkerClass(task.dueDate, task.completed)
+      "
       [style.left]="getPosition(task.dueDate)"
     >
       <div class="timeline-tooltip">
-        {{ task.title }}<br />{{ task.dueDate | date : "mediumDate" }}
+        {{ task.title }}<br />
+        {{ task.dueDate | date : "mediumDate" }}
       </div>
     </div>
+
     <div class="current-date-marker" [style.left]="getCurrentDatePosition()">
       <div class="current-date-line"></div>
       <div class="current-date-label">Today</div>
     </div>
   </div>
+
   <div class="timeline-labels">
-    <span>{{ startDate | date : "mediumDate" }}</span>
-    <span>{{ endDate | date : "mediumDate" }}</span>
+    {{ startDate | date : "mediumDate" }}
+    {{ endDate | date : "mediumDate" }}
   </div>
 </div>
