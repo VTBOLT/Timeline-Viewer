@@ -105,6 +105,7 @@ async def get_tasks():
         # Get the token from the Authorization header
         auth_header = request.headers.get("Authorization")
         if not auth_header or not auth_header.startswith("Bearer "):
+            print("No auth header")
             return jsonify({"error": "No valid authorization header"}), 401
 
         token = auth_header.split(" ")[1]
@@ -147,6 +148,7 @@ async def get_tasks():
                     ]
                 )
             except Exception as e:
+                print("Weird thingy")
                 headers = {
                     "Authorization": f"Bearer {token}",
                     "Content-Type": "application/json",
@@ -192,7 +194,7 @@ async def get_tasks():
             }
         )
     except Exception as e:
-        logger.error(f"Error fetching tasks: {str(e)}")
+        print(f"Error fetching tasks: {str(e)}")
         return jsonify({"error": str(e)}), 500
 
 
