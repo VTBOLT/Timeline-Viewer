@@ -101,6 +101,7 @@ def auth_callback():
 
 @app.route("/api/tasks", methods=["GET"])
 async def get_tasks():
+    print("in tasks")
     try:
         # Get the token from the Authorization header
         auth_header = request.headers.get("Authorization")
