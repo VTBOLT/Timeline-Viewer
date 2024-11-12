@@ -181,5 +181,6 @@ export class TaskListComponent implements OnInit {
         return a.dueDate.getTime() - b.dueDate.getTime();
       }),
     }));
+    print(this.taskColumns);
   }
 }

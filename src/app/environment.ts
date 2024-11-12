@@ -4,6 +4,8 @@ export const environment = {
     'Controls Tasks',
     'Chassis Tasks',
     'Tasks',
+    'Machine Shop',
+    'Weld Shop',
   ],
 };
 
