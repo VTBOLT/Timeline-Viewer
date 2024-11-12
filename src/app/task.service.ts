@@ -7,7 +7,7 @@ import { catchError, tap } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class TaskService {
-  private apiUrl = 'http://bolttimeline.masondigi.com/api';
+  private apiUrl = 'https://api.bolttimeline.masondigi.com/api';
 
   constructor(private http: HttpClient) {}
 
