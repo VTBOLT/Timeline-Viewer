@@ -7,7 +7,7 @@ import { tap, catchError } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:5001/api';
+  private apiUrl = 'http://api.bolttimeline.com/api';
   private tokenKey = 'auth_token';
 
   constructor(private http: HttpClient) {}

@@ -28,13 +28,16 @@ logger = logging.getLogger(__name__)
 app = Flask(__name__)
 CORS(app)
 
+MY_API_URL = "http://api.bolttimeline.com"
+BASE_URL = "http://bolttimeline.com"
+
 CLIENT_ID = os.getenv("CLIENT_ID")
 CLIENT_SECRET = os.getenv("CLIENT_SECRET")
 TENANT_ID = os.getenv("TENANT_ID")
 AUTHORITY = f"https://login.microsoftonline.com/{TENANT_ID}"
 SCOPE = ["User.Read", "Tasks.Read"]  # Updated scopes for delegated flow
-REDIRECT_URI = "http://localhost:5001/api/auth_callback"
-CLIENT_REDIRECT_URI = "http://localhost:4200/auth-callback"
+REDIRECT_URI = f"{MY_API_URL}/api/auth_callback"
+CLIENT_REDIRECT_URI = f"{BASE_URL}/auth-callback"
 
 msal_app = msal.ConfidentialClientApplication(
     CLIENT_ID,
