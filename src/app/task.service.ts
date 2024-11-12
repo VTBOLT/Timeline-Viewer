@@ -13,13 +13,16 @@ export class TaskService {
 
   getTasks(token: string): Observable<any> {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    console.log('Sending request with headers:', headers);
-    return this.http
-      .get(`https://api.bolttimeline.masondigi.com/api/tasks`, { headers })
-      .pipe(
-        tap((response) => console.log('Received response:', response)),
-        catchError(this.handleError)
-      );
+    console.log(
+      'Sending request to ',
+      `${this.apiUrl}/tasks`,
+      ' with headers:',
+      headers
+    );
+    return this.http.get(`${this.apiUrl}/tasks`, { headers }).pipe(
+      tap((response) => console.log('Received response:', response)),
+      catchError(this.handleError)
+    );
   }
 
   private handleError(error: any): Observable<never> {

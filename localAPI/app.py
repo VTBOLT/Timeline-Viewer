@@ -28,7 +28,7 @@ logger = logging.getLogger(__name__)
 app = Flask(__name__)
 CORS(app)
 
-MY_API_URL = "https://api.bolttimeline.masondigi.com"
+MY_API_URL = "https://api.bolttimeline.masondigi.com/"
 BASE_URL = "http://bolttimeline.masondigi.com"
 
 CLIENT_ID = os.getenv("CLIENT_ID")
