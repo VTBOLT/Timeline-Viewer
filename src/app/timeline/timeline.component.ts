@@ -13,8 +13,8 @@ import { environment } from '../environment';
 export class TimelineComponent implements OnChanges {
   @Input() tasks: Task[] = [];
   validTasks: Task[] = [];
-  startDate: Date = new Date('2024-09-02');
-  endDate: Date = new Date();
+  startDate: Date = new Date('2025-11-10');
+  endDate: Date = new Date('2025-12-10');
   currentDate: Date = new Date();
   visiblePlans: Set<string>;
 
