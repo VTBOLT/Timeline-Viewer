@@ -73,7 +73,7 @@ export class TaskListComponent implements OnInit {
         });
       }
       // every 10 minutes, refresh tasks
-      timer(60000).subscribe(() => {
+      timer(600000).subscribe(() => {
         this.getTasks();
       });
     });
