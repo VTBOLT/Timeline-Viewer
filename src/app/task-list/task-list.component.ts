@@ -10,6 +10,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar';
 import { TimelineComponent } from '../timeline/timeline.component';
 import { environment, visibleTags } from '../environment';
+import { timer } from 'rxjs';
 
 export interface Task {
   id: string;
@@ -71,6 +72,10 @@ export class TaskListComponent implements OnInit {
           duration: 5000,
         });
       }
+      // every 10 minutes, refresh tasks
+      timer(600000).subscribe(() => {
+        this.getTasks();
+      });
     });
 
     if (this.isAuthenticated()) {
