@@ -15,6 +15,8 @@ export class TimelineComponent implements OnChanges {
   validTasks: Task[] = [];
   currentDate: Date = new Date();
   visiblePlans: Set<string>;
+  startDate = environment.startDate;
+  endDate = environment.endDate;
 
   constructor() {
     this.visiblePlans = new Set(environment.visiblePlans);
