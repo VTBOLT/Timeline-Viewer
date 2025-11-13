@@ -97,12 +97,17 @@ export class TaskListComponent implements OnInit {
       if (token) {
         this.taskService.getTasks(token).subscribe(
           (response) => {
-            this.tasks = response.value.map((task: any) => ({
-              ...task,
-              dueDate: this.isValidDate(task.dueDate)
-                ? new Date(task.dueDate)
-                : null,
-            }));
+            this.tasks = response.value
+              .map((task: any) => ({
+                ...task,
+                dueDate: this.isValidDate(task.dueDate)
+                  ? new Date(task.dueDate)
+                  : null,
+              }))
+              .filter(
+                (task: Task) =>
+                  task.dueDate == null || task.dueDate >= environment.startDate
+              );
             this.organizeTasksByPlan();
             this.snackBar.open('Tasks fetched successfully', 'Close', {
               duration: 3000,

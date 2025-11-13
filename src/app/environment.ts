@@ -7,6 +7,8 @@ export const environment = {
     'Machine Shop',
     'Weld Shop',
   ],
+  startDate: new Date('2025-11-10'),
+  endDate: new Date('2025-12-10'),
 };
 
 export const visibleTags = ['Bay TV', 'TV'];

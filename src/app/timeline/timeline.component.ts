@@ -13,8 +13,6 @@ import { environment } from '../environment';
 export class TimelineComponent implements OnChanges {
   @Input() tasks: Task[] = [];
   validTasks: Task[] = [];
-  startDate: Date = new Date('2025-11-10');
-  endDate: Date = new Date('2025-12-10');
   currentDate: Date = new Date();
   visiblePlans: Set<string>;
 
@@ -37,7 +35,7 @@ export class TimelineComponent implements OnChanges {
       if (this.validTasks.length > 0) {
         const lastTaskDate =
           this.validTasks[this.validTasks.length - 1].dueDate!;
-        this.endDate =
+        environment.endDate =
           lastTaskDate > this.currentDate ? lastTaskDate : this.currentDate;
       }
     }
@@ -69,9 +67,10 @@ export class TimelineComponent implements OnChanges {
 
   private calculatePosition(date: Date): string {
     const taskDate = date.getTime();
-    const totalDuration = this.endDate.getTime() - this.startDate.getTime();
+    const totalDuration =
+      environment.endDate.getTime() - environment.startDate.getTime();
     const position =
-      ((taskDate - this.startDate.getTime()) / totalDuration) * 100;
+      ((taskDate - environment.startDate.getTime()) / totalDuration) * 100;
     return `${Math.max(0, Math.min(100, position))}%`;
   }
 }
