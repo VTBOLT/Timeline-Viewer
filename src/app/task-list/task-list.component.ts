@@ -74,6 +74,7 @@ export class TaskListComponent implements OnInit {
       }
       // every 10 minutes, refresh tasks
       timer(600000).subscribe(() => {
+        this.snackBar.open('Refreshing tasks...', 'Close', { duration: 2000 });
         this.getTasks();
       });
     });
