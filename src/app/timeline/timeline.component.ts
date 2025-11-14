@@ -43,6 +43,48 @@ export class TimelineComponent implements OnChanges {
     }
   }
 
+  getGroupedTasks(): Task[][] {
+    const groups: Task[][] = [];
+    const threshold = 2; // Percentage threshold for considering tasks as overlapping
+
+    this.validTasks.forEach((task) => {
+      const taskPosition = parseFloat(this.getPosition(task.dueDate));
+
+      // Find if this task belongs to an existing group
+      const existingGroup = groups.find((group) => {
+        const groupPosition = parseFloat(this.getPosition(group[0].dueDate));
+        return Math.abs(taskPosition - groupPosition) < threshold;
+      });
+
+      if (existingGroup) {
+        existingGroup.push(task);
+      } else {
+        groups.push([task]);
+      }
+    });
+
+    return groups;
+  }
+
+  getGroupMarkerClass(group: Task[]): string {
+    // Prioritize the most critical status in the group
+    let hasOverdue = false;
+    let hasDueToday = false;
+    let hasUpcoming = false;
+
+    group.forEach((task) => {
+      const markerClass = this.getMarkerClass(task.dueDate, task.completed);
+      if (markerClass === 'timeline-marker-overdue') hasOverdue = true;
+      else if (markerClass === 'timeline-marker-due-today') hasDueToday = true;
+      else if (markerClass === 'timeline-marker-upcoming') hasUpcoming = true;
+    });
+
+    if (hasOverdue) return 'timeline-marker-overdue';
+    if (hasDueToday) return 'timeline-marker-due-today';
+    if (hasUpcoming) return 'timeline-marker-upcoming';
+    return 'timeline-marker-pending';
+  }
+
   getPosition(date: Date | null): string {
     if (!date) return '0%';
     return this.calculatePosition(date);

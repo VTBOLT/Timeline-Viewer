@@ -1,16 +1,23 @@
 <div class="timeline-container" *ngIf="validTasks.length > 0">
   <div class="timeline-bar">
+    <!-- Group markers by position to handle overlaps -->
     <div
-      *ngFor="let task of validTasks"
-      [class]="
-        'timeline-marker ' + getMarkerClass(task.dueDate, task.completed)
-      "
-      [style.left]="getPosition(task.dueDate)"
+      *ngFor="let group of getGroupedTasks()"
+      [class]="'timeline-marker ' + getGroupMarkerClass(group)"
+      [style.left]="getPosition(group[0].dueDate)"
     >
       <div class="timeline-tooltip">
-        {{ task.title }}<br />
-        {{ task.dueDate | date : "mediumDate" }}
+        <div *ngFor="let task of group">
+          <strong>{{ task.title }}</strong
+          ><br />
+          {{ task.dueDate | date : "mediumDate" }}<br />
+          <span *ngIf="group.length > 1">---</span>
+        </div>
       </div>
+      <!-- Show count badge if multiple tasks overlap -->
+      <span class="overlap-badge" *ngIf="group.length > 1">{{
+        group.length
+      }}</span>
     </div>
 
     <div class="current-date-marker" [style.left]="getCurrentDatePosition()">
