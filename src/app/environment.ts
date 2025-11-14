@@ -6,6 +6,7 @@ export const environment = {
     'Tasks',
     'Machine Shop',
     'Weld Shop',
+    'Senior Design - 2026',
   ],
   startDate: new Date('2025-11-10'),
   endDate: new Date('2025-12-10'),
