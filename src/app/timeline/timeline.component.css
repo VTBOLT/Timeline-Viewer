@@ -60,7 +60,7 @@
   transition: opacity 0.2s;
   pointer-events: none;
   white-space: nowrap;
-  z-index: 100;
+  z-index: 999;
 }
 
 .timeline-tooltip div {
