@@ -73,6 +73,7 @@
 
 .timeline-marker:hover .timeline-tooltip {
   opacity: 1;
+  z-index: 5;
 }
 
 .timeline-labels {
