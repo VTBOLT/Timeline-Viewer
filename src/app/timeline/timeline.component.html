@@ -10,9 +10,9 @@
         <div *ngFor="let task of group">
           <strong>{{ task.title }}</strong
           ><br />
-          {{ task.dueDate | date : "mediumDate" }}<br />
           <span *ngIf="group.length > 1"><hr /></span>
         </div>
+        {{ group[0].dueDate | date : "mediumDate" }}<br />
       </div>
       <!-- Show count badge if multiple tasks overlap -->
       <span class="overlap-badge" *ngIf="group.length > 1">{{
