@@ -8,7 +8,9 @@
     >
       <div class="timeline-tooltip">
         <div *ngFor="let task of group">
-          <strong>{{ task.title }}</strong
+          <strong [style]="task.completed >= 100 ? 'color: green' : ''">{{
+            task.title
+          }}</strong
           ><br />
         </div>
         {{ group[0].dueDate | date : "mediumDate" }}<br />
